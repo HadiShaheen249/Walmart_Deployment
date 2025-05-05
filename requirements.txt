@@ -4,5 +4,5 @@ matplotlib
 seaborn
 scikit-learn
 plotly
-pickle
-PIL
+Pillow
+
