@@ -29,4 +29,4 @@ My aim in this project is to build a model which predicts sales of the stores. W
 
 
 # باقي الكود بتاعك (تحميل البيانات وغيره) هيكون هنا
-data = pd.read_csv(r'C:\Users\nile-store\mo\data.csv')
+data = pd.read_csv(r'data.csv')
