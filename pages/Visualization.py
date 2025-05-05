@@ -118,6 +118,13 @@ fig_store_size_sales.update_layout(
 monthly_sales = data.groupby(data['Date'].dt.month)['Weekly_Sales'].sum().reset_index()
 monthly_sales['Month'] = monthly_sales['Date'].apply(lambda x: pd.to_datetime(x, format='%m').strftime('%B'))
 
+# Define the correct order of months
+month_order = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December']
+
+# Ensure the months are in the correct order
+monthly_sales['Month'] = pd.Categorical(monthly_sales['Month'], categories=month_order, ordered=True)
+monthly_sales = monthly_sales.sort_values('Month')
+
 fig_sales_by_month = px.bar(
     monthly_sales,
     x='Month',
@@ -162,4 +169,4 @@ with col2:
     st.plotly_chart(fig_sales_by_year, use_container_width=True)
 st.plotly_chart(fig_store_size_sales, use_container_width=True)
 st.plotly_chart(fig_sales_by_month, use_container_width=True)
-st.plotly_chart(fig_holiday_store_sales, use_container_width=True) 
+st.plotly_chart(fig_holiday_store_sales, use_container_width=True)  # Only once
