@@ -53,7 +53,9 @@ with col4:
 
 st.markdown("---")
 
-# Pie chart - Store Types
+# Create the plots using plotly with a layout similar to the image
+
+# Pie chart
 fig_store_types = px.pie(
     store_type_counts,
     names=store_type_counts.index,
@@ -63,14 +65,21 @@ fig_store_types = px.pie(
 )
 fig_store_types.update_layout(
     margin=dict(l=20, r=20, t=50, b=10),
-    legend=dict(orientation="v", yanchor="top", y=0.8, xanchor="left", x=1),
+    legend=dict(
+        orientation="v",
+        yanchor="top",
+        y=0.8,
+        xanchor="left",
+        x=1
+    ),
     plot_bgcolor='rgba(0,0,0,0)',
     paper_bgcolor='rgba(0,0,0,0)',
     font_color='black',
     title_font_size=20,
 )
 
-# Bar chart - Sales by Year
+
+# Bar chart
 fig_sales_by_year = px.bar(
     sales_by_year,
     x='Date',
@@ -88,14 +97,14 @@ fig_sales_by_year.update_layout(
     title_font_size=20,
 )
 
-# Grouped Bar chart - Store and Size
+# Create the grouped bar chart
 fig_store_size_sales = px.bar(
     data,
     x='Store',
     y='Weekly_Sales',
     color='Size',
     title='Weekly Sales by Store and Size',
-    barmode='group'
+    barmode='group'  # To group bars by size
 )
 fig_store_size_sales.update_layout(
     margin=dict(l=20, r=20, t=50, b=10),
@@ -106,11 +115,15 @@ fig_store_size_sales.update_layout(
 )
 
 # Create the bar chart for weekly sales by month
+monthly_sales = data.groupby(data['Date'].dt.month)['Weekly_Sales'].sum().reset_index()
+monthly_sales['Month'] = monthly_sales['Date'].apply(lambda x: pd.to_datetime(x, format='%m').strftime('%B'))
+
 fig_sales_by_month = px.bar(
-    data.groupby(data['Date'].dt.month)['Weekly_Sales'].sum().reset_index(),
-    x='Date',
+    monthly_sales,
+    x='Month',
     y='Weekly_Sales',
-    title='Weekly Sales by Month'
+    title='Weekly Sales by Month',
+    color_discrete_sequence=px.colors.sequential.Plasma
 )
 fig_sales_by_month.update_layout(
     margin=dict(l=20, r=20, t=50, b=10),
@@ -121,6 +134,7 @@ fig_sales_by_month.update_layout(
     font_color='black',
     title_font_size=20,
 )
+
 
 # Create the grouped bar chart for weekly sales by holiday and store type
 fig_holiday_store_sales = px.bar(
@@ -148,4 +162,5 @@ with col2:
     st.plotly_chart(fig_sales_by_year, use_container_width=True)
 st.plotly_chart(fig_store_size_sales, use_container_width=True)
 st.plotly_chart(fig_sales_by_month, use_container_width=True)
+st.plotly_chart(fig_holiday_store_sales, use_container_width=True)
 st.plotly_chart(fig_holiday_store_sales, use_container_width=True)
