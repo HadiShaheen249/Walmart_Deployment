@@ -162,5 +162,4 @@ with col2:
     st.plotly_chart(fig_sales_by_year, use_container_width=True)
 st.plotly_chart(fig_store_size_sales, use_container_width=True)
 st.plotly_chart(fig_sales_by_month, use_container_width=True)
-st.plotly_chart(fig_holiday_store_sales, use_container_width=True)
-st.plotly_chart(fig_holiday_store_sales, use_container_width=True)
+st.plotly_chart(fig_holiday_store_sales, use_container_width=True) 
