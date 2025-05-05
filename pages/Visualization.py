@@ -105,22 +105,12 @@ fig_store_size_sales.update_layout(
     title_font_size=20,
 )
 
-# ✅ Fixed Bar chart - Sales by Month
-monthly_sales_data = data.groupby(data['Date'].dt.month)['Weekly_Sales'].sum().reset_index()
-monthly_sales_data['Month'] = monthly_sales_data['Date'].apply(lambda x: pd.to_datetime(x, format='%m').strftime('%B'))
-
-# Ensure proper order of months
-month_order = ['January', 'February', 'March', 'April', 'May', 'June',
-               'July', 'August', 'September', 'October', 'November', 'December']
-monthly_sales_data['Month'] = pd.Categorical(monthly_sales_data['Month'], categories=month_order, ordered=True)
-monthly_sales_data = monthly_sales_data.sort_values('Month')
-
+# Create the bar chart for weekly sales by month
 fig_sales_by_month = px.bar(
-    monthly_sales_data,
-    x='Month',
+    data.groupby(data['Date'].dt.month)['Weekly_Sales'].sum().reset_index(),
+    x='Date',
     y='Weekly_Sales',
-    title='Weekly Sales by Month',
-    color_discrete_sequence=px.colors.sequential.Plasma
+    title='Weekly Sales by Month'
 )
 fig_sales_by_month.update_layout(
     margin=dict(l=20, r=20, t=50, b=10),
@@ -132,7 +122,7 @@ fig_sales_by_month.update_layout(
     title_font_size=20,
 )
 
-# Grouped Bar chart - Holiday vs Type
+# Create the grouped bar chart for weekly sales by holiday and store type
 fig_holiday_store_sales = px.bar(
     data,
     x='IsHoliday',
@@ -149,13 +139,13 @@ fig_holiday_store_sales.update_layout(
     title_font_size=20,
 )
 
-# Show plots in layout
+
+# Display the plots in Streamlit
 col1, col2 = st.columns(2)
 with col1:
     st.plotly_chart(fig_store_types, use_container_width=True)
 with col2:
     st.plotly_chart(fig_sales_by_year, use_container_width=True)
-
 st.plotly_chart(fig_store_size_sales, use_container_width=True)
 st.plotly_chart(fig_sales_by_month, use_container_width=True)
 st.plotly_chart(fig_holiday_store_sales, use_container_width=True)
