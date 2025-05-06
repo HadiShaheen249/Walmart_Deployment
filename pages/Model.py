@@ -1,10 +1,28 @@
 import streamlit as st
 import pandas as pd
-import pickle
 
 # تحميل النموذج
-with open('model.pkl', 'rb') as f:
-    model = pickle.load(f)
+# with open('model.pkl', 'rb') as f:
+#     model = pickle.load(f)
+import os
+import gdown
+import joblib
+import streamlit as st
+
+# تحميل النموذج من Google Drive إذا لم يكن موجودًا
+MODEL_PATH = "model.pkl"
+FILE_ID = "1dV-PeX1T14ekqUnhjqAktkitxLNRN5-v"
+URL = f"https://drive.google.com/uc?id={FILE_ID}"
+
+if not os.path.exists(MODEL_PATH):
+    with st.spinner("Downloading model..."):
+        gdown.download(URL, MODEL_PATH, quiet=False)
+
+# تحميل النموذج
+model = joblib.load(MODEL_PATH)
+
+# باقي كود Streamlit كالعادة...
+
 
 # تحميل البيانات لاستخراج القيم الفعلية
 data = pd.read_csv("data.csv")
