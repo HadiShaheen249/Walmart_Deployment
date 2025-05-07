@@ -8,6 +8,7 @@ sales_by_month = pd.read_csv("sales_by_month.csv")
 sales_by_store_size = pd.read_csv("sales_by_store_size.csv")
 sales_by_dept = pd.read_csv("sales_by_dept.csv")
 store_type_counts = pd.read_csv("store_type_counts.csv")
+holiday_sales = pd.read_csv("holiday_sales_by_type.csv")
 
 # Clean and prepare sales_by_month
 sales_by_month['Month'] = sales_by_month['Month'].astype(int)
@@ -106,7 +107,18 @@ fig_sales_by_dept = px.bar(
     color_discrete_sequence=px.colors.sequential.Oranges
 )
 
-# Show
+# Plot 6: Holiday Sales by Store Type
+fig_holiday_sales = px.bar(
+    holiday_sales,
+    x='Holiday_Name',
+    y='Weekly_Sales',
+    color='Type',
+    barmode='group',
+    category_orders={'Holiday_Name': ['Thanksgiving', 'Super_Bowl', 'Labor_Day', 'Christmas']},
+    title='Average Weekly Sales by Store Type During Holidays'
+)
+
+# Show charts
 col1, col2 = st.columns(2)
 
 with col1:
@@ -117,14 +129,14 @@ with col2:
     st.plotly_chart(fig_sales_by_year, use_container_width=True)
     st.markdown("**Insight:** Sales were relatively consistent over the three years, but the highest sales were recorded in **2010**, suggesting a strong market or seasonal push that year.")
 
-# Plot 3: Sales by Store and Size
 st.plotly_chart(fig_store_size_sales, use_container_width=True)
 st.markdown("**Insight:** Store size has a clear impact on weekly sales. The store with the highest sales is **Store 20**, which also has the largest size. This suggests that investing in larger store formats could be beneficial.")
 
-# Plot 4: Sales by Month
 st.plotly_chart(fig_sales_by_month, use_container_width=True)
 st.markdown("**Insight:** The highest sales are observed in **December**, which aligns with the **Christmas** season when customers are more likely to purchase gifts and seasonal items.")
 
-# Plot 5: Sales by Department
 st.plotly_chart(fig_sales_by_dept, use_container_width=True)
 st.markdown("**Insight:** Department **92** has the highest weekly sales among all departments. Focusing on this department and understanding its drivers could help boost total sales further.")
+
+st.plotly_chart(fig_holiday_sales, use_container_width=True)
+st.markdown("**Insight:** Sales vary significantly across holidays and store types. For example, **Thanksgiving** and **Christmas** tend to show strong performance, especially in **Type A** stores, indicating strategic opportunities during those periods.")
