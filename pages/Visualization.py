@@ -1,6 +1,6 @@
+import pandas as pd
 import streamlit as st
 import plotly.express as px
-import pandas as pd
 
 # Load data
 sales_by_year = pd.read_csv("sales_by_year.csv")
@@ -16,6 +16,30 @@ month_order = ['January', 'February', 'March', 'April', 'May', 'June',
                'July', 'August', 'September', 'October', 'November', 'December']
 sales_by_month['MonthName'] = pd.Categorical(sales_by_month['MonthName'], categories=month_order, ordered=True)
 sales_by_month = sales_by_month.sort_values('MonthName')
+
+# Load holiday sales data and calculate average weekly sales for holidays by store type
+holiday_sales = pd.read_csv("holiday_sales.csv")  # Assuming the file contains relevant sales data
+
+# Assuming `Holiday` column and `Type` column are available in `holiday_sales`
+holiday_sales['Holiday'] = pd.to_datetime(holiday_sales['Holiday'])
+holiday_dates = ['2010-11-26', '2011-11-25', '2010-02-12', '2011-02-11', '2012-02-10', '2010-09-10', '2011-09-09', '2012-09-07', '2010-12-31', '2011-12-30']
+holiday_sales = holiday_sales[holiday_sales['Holiday'].isin(pd.to_datetime(holiday_dates))]
+
+# Add holiday name column
+holiday_sales['Holiday_Name'] = holiday_sales['Holiday'].apply(lambda x: 'Thanksgiving' if x in pd.to_datetime(['2010-11-26', '2011-11-25'])
+                                                     else 'Super_Bowl' if x in pd.to_datetime(['2010-02-12', '2011-02-11', '2012-02-10'])
+                                                     else 'Labor_Day' if x in pd.to_datetime(['2010-09-10', '2011-09-09', '2012-09-07'])
+                                                     else 'Christmas')
+
+# Create a bar plot for holiday sales by store type
+fig_holiday_sales = px.bar(
+    holiday_sales,
+    x='Holiday_Name',
+    y='Weekly_Sales',
+    color='Type',
+    title='Weekly Sales by Store Type on Holidays',
+    category_orders={'Holiday_Name': ['Thanksgiving', 'Super_Bowl', 'Labor_Day', 'Christmas']}
+)
 
 # Summary metrics
 most_selling_store_id = sales_by_store_size.groupby('Store')['Weekly_Sales'].sum().idxmax()
@@ -113,3 +137,5 @@ st.plotly_chart(fig_sales_by_month, use_container_width=True)
 # Plot 5: Sales by Department
 st.plotly_chart(fig_sales_by_dept, use_container_width=True)
 
+# Show holiday sales by store type chart
+st.plotly_chart(fig_holiday_sales, use_container_width=True)
