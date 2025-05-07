@@ -1,139 +1,172 @@
 import streamlit as st
-import pandas as pd
 import plotly.express as px
+import pandas as pd
 
-# Load the summarized data
-summary_data = pd.read_csv("visualization_summary_for_streamlit.csv")
+# Load the data
+data = pd.read_csv(r'data.csv')
 
-# Set page config
-st.set_page_config(layout="wide")
-st.title("📊 Walmart Sales Visualization (Optimized)")
+# Convert 'Date' column to datetime
+data['Date'] = pd.to_datetime(data['Date'])
 
-# Most selling info
-st.markdown("### 📌 Summary Insights")
+# Get the value counts of store types
+store_type_counts = data['Type'].value_counts()
+
+# Calculate sales by year
+sales_by_year = data.groupby(data['Date'].dt.year)['Weekly_Sales'].sum().reset_index()
+
+# Summary calculations
+most_selling_store_id = data.groupby('Store')['Weekly_Sales'].sum().idxmax()
+most_selling_store = f"Store {most_selling_store_id}"
+store_20_type = data[data['Store'] == 20]['Type'].iloc[0]
+most_selling_department = data.groupby('Dept')['Weekly_Sales'].sum().idxmax()
+
+# Most selling month
+monthly_sales = data.groupby(data['Date'].dt.month)['Weekly_Sales'].sum()
+most_selling_month_num = monthly_sales.idxmax()
+most_selling_month = pd.to_datetime(most_selling_month_num, format='%m').strftime('%B')
+
+# Set most selling holiday manually
+most_selling_holiday = "Thanksgiving"
+
+# Title
+st.markdown("<h2 style='text-align: center;'>Sales Analysis Summary</h2>", unsafe_allow_html=True)
+
+# Summary boxes
 col1, col2, col3, col4 = st.columns(4)
 
-# Safeguard for missing columns or invalid data
-try:
-    col1.metric("Most Selling Store", f"Store {int(summary_data['most_selling_store'][0])}")
-except KeyError:
-    col1.metric("Most Selling Store", "Data not available")
+with col1:
+    st.markdown(f"<h4 style='font-size: 12px;'>Most Selling Store</h4>", unsafe_allow_html=True)
+    st.markdown(f"<p style='font-size: 22px;'>{most_selling_store}</p>", unsafe_allow_html=True)
+    st.markdown(f"<p style='font-size: 22px;'>Type: {store_20_type}</p>", unsafe_allow_html=True)
 
-try:
-    col1.metric("Store Type", summary_data['store_20_type'][0])
-except KeyError:
-    col1.metric("Store Type", "Data not available")
+with col2:
+    st.markdown(f"<h4 style='font-size: 12px;'>Most Selling Department</h4>", unsafe_allow_html=True)
+    st.markdown(f"<p style='font-size: 22px;'>{most_selling_department}</p>", unsafe_allow_html=True)
 
-try:
-    col2.metric("Most Selling Dept", f"Dept {int(summary_data['most_selling_dept'][0])}")
-except KeyError:
-    col2.metric("Most Selling Dept", "Data not available")
+with col3:
+    st.markdown(f"<h4 style='font-size: 12px;'>Most Selling Month</h4>", unsafe_allow_html=True)
+    st.markdown(f"<p style='font-size: 22px;'>{most_selling_month}</p>", unsafe_allow_html=True)
 
-try:
-    col3.metric("Most Selling Month", summary_data['most_selling_month'][0])
-except KeyError:
-    col3.metric("Most Selling Month", "Data not available")
-
-try:
-    col4.metric("Most Selling Holiday", summary_data['most_selling_holiday'][0])
-except KeyError:
-    col4.metric("Most Selling Holiday", "Data not available")
+with col4:
+    st.markdown(f"<h4 style='font-size: 12px;'>Most Selling Holiday</h4>", unsafe_allow_html=True)
+    st.markdown(f"<p style='font-size: 22px;'>{most_selling_holiday}</p>", unsafe_allow_html=True)
 
 st.markdown("---")
 
-# Pie chart - Store Type Distribution
-try:
-    store_type_df = summary_data[['store_type_A', 'store_type_B', 'store_type_C']].melt(var_name='Type', value_name='Sales')
-    store_type_df['Type'] = store_type_df['Type'].str[-1]
+# Create the plots using plotly with a layout similar to the image
 
-    fig_pie = px.pie(
-        store_type_df,
-        names='Type',
-        values='Sales',
-        title="Sales Distribution by Store Type",
-        color_discrete_sequence=px.colors.qualitative.Pastel
-    )
-    st.plotly_chart(fig_pie, use_container_width=True)
-except KeyError:
-    st.error("Store Type Distribution data is not available.")
+# Pie chart
+fig_store_types = px.pie(
+    store_type_counts,
+    names=store_type_counts.index,
+    values=store_type_counts,
+    title='Weekly Sales by Store Type',
+    color_discrete_sequence=px.colors.qualitative.Pastel
+)
+fig_store_types.update_layout(
+    margin=dict(l=20, r=20, t=50, b=10),
+    legend=dict(
+        orientation="v",
+        yanchor="top",
+        y=0.8,
+        xanchor="left",
+        x=1
+    ),
+    plot_bgcolor='rgba(0,0,0,0)',
+    paper_bgcolor='rgba(0,0,0,0)',
+    font_color='black',
+    title_font_size=20,
+)
 
-# Bar chart - Sales by Year
-try:
-    year_sales_df = summary_data[['sales_2010', 'sales_2011', 'sales_2012']].melt(var_name='Year', value_name='Sales')
-    year_sales_df['Year'] = year_sales_df['Year'].str.extract(r'(\d{4})')
 
-    fig_year = px.bar(
-        year_sales_df,
-        x='Year',
-        y='Sales',
-        title="Total Sales by Year",
-        color='Sales',
-        color_continuous_scale='Plasma'
-    )
-    st.plotly_chart(fig_year, use_container_width=True)
-except KeyError:
-    st.error("Sales by Year data is not available.")
+# Bar chart
+fig_sales_by_year = px.bar(
+    sales_by_year,
+    x='Date',
+    y='Weekly_Sales',
+    title='Weekly Sales by Year',
+    color_discrete_sequence=px.colors.sequential.Plasma
+)
+fig_sales_by_year.update_layout(
+    margin=dict(l=20, r=20, t=50, b=10),
+    xaxis_title="Year",
+    yaxis_title="Total Sales",
+    plot_bgcolor='rgba(0,0,0,0)',
+    paper_bgcolor='rgba(0,0,0,0)',
+    font_color='black',
+    title_font_size=20,
+)
 
-# Bar chart - Monthly Sales
-months = [
-    'January', 'February', 'March', 'April', 'May', 'June',
-    'July', 'August', 'September', 'October', 'November', 'December'
-]
-try:
-    monthly_sales = summary_data[[f'sales_{month}' for month in months]].melt(var_name='Month', value_name='Sales')
-    monthly_sales['Month'] = monthly_sales['Month'].str.replace('sales_', '')
-    monthly_sales['Month'] = pd.Categorical(monthly_sales['Month'], categories=months, ordered=True)
-    monthly_sales = monthly_sales.sort_values('Month')
+# Create the grouped bar chart
+fig_store_size_sales = px.bar(
+    data,
+    x='Store',
+    y='Weekly_Sales',
+    color='Size',
+    title='Weekly Sales by Store and Size',
+    barmode='group'  # To group bars by size
+)
+fig_store_size_sales.update_layout(
+    margin=dict(l=20, r=20, t=50, b=10),
+    plot_bgcolor='rgba(0,0,0,0)',
+    paper_bgcolor='rgba(0,0,0,0)',
+    font_color='black',
+    title_font_size=20,
+)
 
-    fig_month = px.bar(
-        monthly_sales,
-        x='Month',
-        y='Sales',
-        title='Monthly Sales',
-        color='Sales',
-        color_continuous_scale='Plasma'
-    )
-    st.plotly_chart(fig_month, use_container_width=True)
-except KeyError:
-    st.error("Monthly Sales data is not available.")
+# Create the bar chart for weekly sales by month
+monthly_sales = data.groupby(data['Date'].dt.month)['Weekly_Sales'].sum().reset_index()
+monthly_sales['Month'] = monthly_sales['Date'].apply(lambda x: pd.to_datetime(x, format='%m').strftime('%B'))
 
-# Store and Size grouped bar chart
-try:
-    store_size_df = summary_data[['store_id', 'store_size', 'store_sales']]
-    fig_store_size = px.bar(
-        store_size_df,
-        x='store_id',
-        y='store_sales',
-        color='store_size',
-        title='Store Sales by Size',
-        labels={'store_id': 'Store', 'store_sales': 'Sales', 'store_size': 'Size'},
-        barmode='group'
-    )
-    st.plotly_chart(fig_store_size, use_container_width=True)
-except KeyError:
-    st.error("Store and Size data is not available.")
+# Define the correct order of months
+month_order = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December']
 
-# Holiday vs Non-Holiday by Store Type
-try:
-    holiday_df = summary_data[['holiday_type_A', 'holiday_type_B', 'holiday_type_C',
-                               'nonholiday_type_A', 'nonholiday_type_B', 'nonholiday_type_C']]
+# Ensure the months are in the correct order
+monthly_sales['Month'] = pd.Categorical(monthly_sales['Month'], categories=month_order, ordered=True)
+monthly_sales = monthly_sales.sort_values('Month')
 
-    holiday_data = []
-    for status in ['holiday', 'nonholiday']:
-        for store_type in ['A', 'B', 'C']:
-            value = holiday_df[f"{status}_type_{store_type}"][0]
-            holiday_data.append({'Holiday': status.capitalize(), 'Type': store_type, 'Sales': value})
+fig_sales_by_month = px.bar(
+    monthly_sales,
+    x='Month',
+    y='Weekly_Sales',
+    title='Weekly Sales by Month',
+    color_discrete_sequence=px.colors.sequential.Plasma
+)
+fig_sales_by_month.update_layout(
+    margin=dict(l=20, r=20, t=50, b=10),
+    xaxis_title="Month",
+    yaxis_title="Total Sales",
+    plot_bgcolor='rgba(0,0,0,0)',
+    paper_bgcolor='rgba(0,0,0,0)',
+    font_color='black',
+    title_font_size=20,
+)
 
-    holiday_df_final = pd.DataFrame(holiday_data)
 
-    fig_holiday = px.bar(
-        holiday_df_final,
-        x='Holiday',
-        y='Sales',
-        color='Type',
-        barmode='group',
-        title="Sales by Holiday Status and Store Type"
-    )
-    st.plotly_chart(fig_holiday, use_container_width=True)
-except KeyError:
-    st.error("Holiday vs Non-Holiday Sales data is not available.")
+# Create the grouped bar chart for weekly sales by holiday and store type
+fig_holiday_store_sales = px.bar(
+    data,
+    x='IsHoliday',
+    y='Weekly_Sales',
+    color='Type',
+    title='Weekly Sales by Holiday and Store Type',
+    barmode='group'
+)
+fig_holiday_store_sales.update_layout(
+    margin=dict(l=20, r=20, t=50, b=10),
+    plot_bgcolor='rgba(0,0,0,0)',
+    paper_bgcolor='rgba(0,0,0,0)',
+    font_color='black',
+    title_font_size=20,
+)
+
+
+# Display the plots in Streamlit
+col1, col2 = st.columns(2)
+with col1:
+    st.plotly_chart(fig_store_types, use_container_width=True)
+with col2:
+    st.plotly_chart(fig_sales_by_year, use_container_width=True)
+st.plotly_chart(fig_store_size_sales, use_container_width=True)
+st.plotly_chart(fig_sales_by_month, use_container_width=True)
+st.plotly_chart(fig_holiday_store_sales, use_container_width=True)  # Only once 
