@@ -30,7 +30,7 @@ top_store_type = store_type_counts.sort_values(by='Count', ascending=False).iloc
 st.markdown("<h2 style='text-align: center;'>Sales Analysis Summary</h2>", unsafe_allow_html=True)
 
 # Summary boxes
-col1, col2, col3, col4, col5, col6 = st.columns(6)
+col1, col2, col3, col4, col5 = st.columns(5)
 
 with col1:
     st.markdown("<h4 style='font-size: 12px;'>Most Selling Store</h4>", unsafe_allow_html=True)
@@ -52,10 +52,10 @@ with col5:
     st.markdown("<h4 style='font-size: 12px;'>Top Store Type</h4>", unsafe_allow_html=True)
     st.markdown(f"<p style='font-size: 22px;'>Type {top_store_type}</p>", unsafe_allow_html=True)
 
-with col6:
-    store_a_percentage = store_type_counts[store_type_counts['Type'] == 'A']['Count'].iloc[0] / store_type_counts['Count'].sum() * 100
-    st.markdown("<h4 style='font-size: 12px;'>Type A Share</h4>", unsafe_allow_html=True)
-    st.markdown(f"<p style='font-size: 22px;'>{store_a_percentage:.1f}%</p>", unsafe_allow_html=True)
+# with col6:
+#     store_a_percentage = store_type_counts[store_type_counts['Type'] == 'A']['Count'].iloc[0] / store_type_counts['Count'].sum() * 100
+#     st.markdown("<h4 style='font-size: 12px;'>Type A Share</h4>", unsafe_allow_html=True)
+#     st.markdown(f"<p style='font-size: 22px;'>{store_a_percentage:.1f}%</p>", unsafe_allow_html=True)
 
 st.markdown("---")
 
