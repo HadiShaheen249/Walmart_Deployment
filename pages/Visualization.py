@@ -57,7 +57,7 @@ fig_store_types = px.pie(
     names='Type',
     values='Count',
     title='Weekly Sales by Store Type',
-    color_discrete_sequence=px.colors.qualitative.Pastel
+    color_discrete_sequence=px.colors.qualitative.Rainbow
 )
 
 # Plot 2: Sales by Year
@@ -94,7 +94,7 @@ fig_sales_by_dept = px.bar(
     x='Dept',
     y='Weekly_Sales',
     title='Weekly Sales by Department',
-    color_discrete_sequence=px.colors.sequential.Mint
+    color_discrete_sequence=px.colors.sequential.Darkmint
 )
 
 # Show 
