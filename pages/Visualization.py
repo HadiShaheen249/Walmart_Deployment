@@ -94,7 +94,7 @@ fig_sales_by_dept = px.bar(
     x='Dept',
     y='Weekly_Sales',
     title='Weekly Sales by Department',
-    color_discrete_sequence=px.colors.sequential.Cividis
+    color_discrete_sequence=px.colors.sequential.Mint
 )
 
 # Show 
