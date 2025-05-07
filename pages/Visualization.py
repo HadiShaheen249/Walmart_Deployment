@@ -114,11 +114,12 @@ fig_holiday_sales = px.bar(
     y='Weekly_Sales',
     color='Type',
     barmode='group',
+    title='Weekly Sales by Store Type During Holidays',
     category_orders={'Holiday_Name': ['Thanksgiving', 'Super_Bowl', 'Labor_Day', 'Christmas']},
-    title='Average Weekly Sales by Store Type During Holidays'
+    color_discrete_sequence=px.colors.qualitative.Set1
 )
 
-# Show charts
+# Show plots
 col1, col2 = st.columns(2)
 
 with col1:
@@ -129,6 +130,7 @@ with col2:
     st.plotly_chart(fig_sales_by_year, use_container_width=True)
     st.markdown("**Insight:** Sales were relatively consistent over the three years, but the highest sales were recorded in **2010**, suggesting a strong market or seasonal push that year.")
 
+# Additional plots
 st.plotly_chart(fig_store_size_sales, use_container_width=True)
 st.markdown("**Insight:** Store size has a clear impact on weekly sales. The store with the highest sales is **Store 20**, which also has the largest size. This suggests that investing in larger store formats could be beneficial.")
 
@@ -139,4 +141,4 @@ st.plotly_chart(fig_sales_by_dept, use_container_width=True)
 st.markdown("**Insight:** Department **92** has the highest weekly sales among all departments. Focusing on this department and understanding its drivers could help boost total sales further.")
 
 st.plotly_chart(fig_holiday_sales, use_container_width=True)
-st.markdown("**Insight:** Sales vary significantly across holidays and store types. For example, **Thanksgiving** and **Christmas** tend to show strong performance, especially in **Type A** stores, indicating strategic opportunities during those periods.")
+st.markdown("**Insight:** **Thanksgiving** leads all holidays in weekly sales, especially for **Store Type A**, showing its importance in planning seasonal strategies.")
