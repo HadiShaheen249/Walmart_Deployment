@@ -8,3 +8,4 @@ plotly
 Pillow
 joblib
 gdown
+lightgbm
