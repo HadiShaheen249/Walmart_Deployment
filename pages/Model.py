@@ -1,24 +1,25 @@
 import streamlit as st
 import pandas as pd
+import pickle
 import os
-import gdown
-import joblib
 
-# إعداد رابط التحميل من Google Drive
-MODEL_PATH = "model.pkl"
-FILE_ID = "1dV-PeX1T14ekqUnhjqAktkitxLNRN5-v"
-URL = f"https://drive.google.com/uc?id={FILE_ID}"
+# تحميل النموذج من ملف محلي على GitHub repo
+MODEL_PATH = "best_model.pkl"
 
-# تحميل النموذج إذا لم يكن موجودًا
-if not os.path.exists(MODEL_PATH):
-    with st.spinner("Downloading model from Google Drive..."):
-        gdown.download(URL, MODEL_PATH, quiet=False)
+try:
+    with open(MODEL_PATH, "rb") as f:
+        model = pickle.load(f)
+except Exception as e:
+    st.error(f"حدث خطأ أثناء تحميل النموذج: {e}")
+    st.stop()
 
-# تحميل النموذج
-model = joblib.load(MODEL_PATH)
+# تحميل البيانات لاستخدام القيم الفعلية
+DATA_PATH = "data.csv"
+if not os.path.exists(DATA_PATH):
+    st.error("ملف البيانات غير موجود: تأكد من رفع data.csv في نفس المجلد.")
+    st.stop()
 
-# تحميل البيانات لاستخراج القيم الفعلية
-data = pd.read_csv("data.csv")
+data = pd.read_csv(DATA_PATH)
 unique_depts = sorted(data['Dept'].unique())
 unique_stores = sorted(data['Store'].unique())
 
@@ -41,6 +42,7 @@ with st.form("prediction_form"):
 
     with col2:
         is_holiday = st.radio("Is Holiday?", ['No', 'Yes'])
+
         store_size = st.slider("Store Size", min_size, max_size, value=min_size, step=1000)
         markdown = st.slider("Total MarkDown", min_markdown, max_markdown, value=min_markdown, step=0.1)
         econ_index = st.slider("Economic Index", min_econ, max_econ, value=min_econ, step=0.1)
