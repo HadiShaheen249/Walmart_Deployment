@@ -3,7 +3,7 @@ import pandas as pd
 import pickle
 
 تحميل النموذج
-with open('model.pkl', 'rb') as f:
+with open('best_model.pkl', 'rb') as f:
     model = pickle.load(f)
 # import os
 # import gdown
