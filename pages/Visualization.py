@@ -59,7 +59,7 @@ fig_store_types = px.pie(
     title='Weekly Sales by Store Type',
     color_discrete_sequence=px.colors.qualitative.Pastel
 )
-st.plotly_chart(fig_store_types, use_container_width=True)
+# st.plotly_chart(fig_store_types, use_container_width=True)
 
 # Plot 2: Sales by Year
 fig_sales_by_year = px.bar(
@@ -69,7 +69,7 @@ fig_sales_by_year = px.bar(
     title='Weekly Sales by Year',
     color_discrete_sequence=px.colors.sequential.Plasma
 )
-st.plotly_chart(fig_sales_by_year, use_container_width=True)
+# st.plotly_chart(fig_sales_by_year, use_container_width=True)
 
 # Plot 3: Sales by Store and Size
 fig_store_size_sales = px.bar(
@@ -80,7 +80,7 @@ fig_store_size_sales = px.bar(
     title='Weekly Sales by Store and Size',
     barmode='group'
 )
-st.plotly_chart(fig_store_size_sales, use_container_width=True)
+# st.plotly_chart(fig_store_size_sales, use_container_width=True)
 
 # Plot 4: Sales by Month
 fig_sales_by_month = px.bar(
@@ -90,7 +90,7 @@ fig_sales_by_month = px.bar(
     title='Weekly Sales by Month',
     color_discrete_sequence=px.colors.sequential.Plasma
 )
-st.plotly_chart(fig_sales_by_month, use_container_width=True)
+# st.plotly_chart(fig_sales_by_month, use_container_width=True)
 
 # Plot 5: Sales by Department
 fig_sales_by_dept = px.bar(
@@ -100,4 +100,20 @@ fig_sales_by_dept = px.bar(
     title='Weekly Sales by Department',
     color_discrete_sequence=px.colors.sequential.Viridis
 )
+# st.plotly_chart(fig_sales_by_dept, use_container_width=True)
+# Plot 1 & 2: Show pie and bar (year) side-by-side
+col1, col2 = st.columns(2)
+with col1:
+    st.plotly_chart(fig_store_types, use_container_width=True)
+with col2:
+    st.plotly_chart(fig_sales_by_year, use_container_width=True)
+
+# Plot 3: Sales by Store and Size
+st.plotly_chart(fig_store_size_sales, use_container_width=True)
+
+# Plot 4: Sales by Month
+st.plotly_chart(fig_sales_by_month, use_container_width=True)
+
+# Plot 5: Sales by Department
 st.plotly_chart(fig_sales_by_dept, use_container_width=True)
+
