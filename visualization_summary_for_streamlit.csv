@@ -1,0 +1,70 @@
+Label,Value,Metric
+2010,2288918883.02,Sales by Year
+2011,2448232623.87,Sales by Year
+2012,2000155641.78,Sales by Year
+A,4331057478.53,Sales by Store Type
+B,2000741648.34,Sales by Store Type
+C,405508021.8,Sales by Store Type
+Store 1 - Size 151315,222406766.77,Sales by Store and Size
+Store 2 - Size 202307,275387155.5,Sales by Store and Size
+Store 3 - Size 37392,57587925.87,Sales by Store and Size
+Store 4 - Size 205863,299545269.3,Sales by Store and Size
+Store 5 - Size 34875,45476119.71,Sales by Store and Size
+Store 6 - Size 202505,223758588.34,Sales by Store and Size
+Store 7 - Size 70713,81599495.81,Sales by Store and Size
+Store 8 - Size 155078,129951509.67,Sales by Store and Size
+Store 9 - Size 125833,77791165.32,Sales by Store and Size
+Store 10 - Size 126512,271624109.39,Sales by Store and Size
+Store 11 - Size 207499,193964391.99,Sales by Store and Size
+Store 12 - Size 112238,144291146.56,Sales by Store and Size
+Store 13 - Size 219622,286517950.36,Sales by Store and Size
+Store 14 - Size 200898,289001864.44,Sales by Store and Size
+Store 15 - Size 123737,89134868.26,Sales by Store and Size
+Store 16 - Size 57197,74256735.1,Sales by Store and Size
+Store 17 - Size 93188,127783189.52,Sales by Store and Size
+Store 18 - Size 120653,155115837.53,Sales by Store and Size
+Store 19 - Size 203819,206637687.81,Sales by Store and Size
+Store 20 - Size 203742,301401381.45,Sales by Store and Size
+Store 21 - Size 140167,108119559.57,Sales by Store and Size
+Store 22 - Size 119557,147076770.93,Sales by Store and Size
+Store 23 - Size 114533,198752745.4,Sales by Store and Size
+Store 24 - Size 203819,194016596.61,Sales by Store and Size
+Store 25 - Size 128107,101061843.39,Sales by Store and Size
+Store 26 - Size 152513,143416619.82,Sales by Store and Size
+Store 27 - Size 204184,253857189.97,Sales by Store and Size
+Store 28 - Size 206302,189271508.03,Sales by Store and Size
+Store 29 - Size 93638,77142826.53,Sales by Store and Size
+Store 30 - Size 42988,62717012.33,Sales by Store and Size
+Store 31 - Size 203750,199614930.36,Sales by Store and Size
+Store 32 - Size 203007,166820776.17,Sales by Store and Size
+Store 33 - Size 39690,37160325.4,Sales by Store and Size
+Store 34 - Size 158114,138252627.2,Sales by Store and Size
+Store 35 - Size 103681,131529989.11,Sales by Store and Size
+Store 36 - Size 39910,53413353.1,Sales by Store and Size
+Store 37 - Size 39910,74202860.54,Sales by Store and Size
+Store 38 - Size 39690,55159900.7,Sales by Store and Size
+Store 39 - Size 184109,207446494.23,Sales by Store and Size
+Store 40 - Size 155083,137871636.15,Sales by Store and Size
+Store 41 - Size 196321,181342855.86,Sales by Store and Size
+Store 42 - Size 39690,79568043.68,Sales by Store and Size
+Store 43 - Size 41062,90566533.0,Sales by Store and Size
+Store 44 - Size 39910,43293671.55,Sales by Store and Size
+Store 45 - Size 118221,112397320.34,Sales by Store and Size
+January,332601872.62,Sales by Month
+February,568733872.82,Sales by Month
+March,592797392.0,Sales by Month
+April,646865790.75,Sales by Month
+May,557129755.98,Sales by Month
+June,622633477.6,Sales by Month
+July,650008941.59,Sales by Month
+August,613097865.02,Sales by Month
+September,578775125.75,Sales by Month
+October,584795416.44,Sales by Month
+November,413018548.59,Sales by Month
+December,576849089.51,Sales by Month
+False - Type A,4007650835.39,Sales by Holiday and Store Type
+False - Type B,1847097342.73,Sales by Holiday and Store Type
+False - Type C,377251435.4,Sales by Holiday and Store Type
+True - Type A,323406643.14,Sales by Holiday and Store Type
+True - Type B,153644305.61,Sales by Holiday and Store Type
+True - Type C,28256586.4,Sales by Holiday and Store Type
