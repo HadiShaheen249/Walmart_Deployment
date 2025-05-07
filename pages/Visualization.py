@@ -20,22 +20,21 @@ sales_by_month = sales_by_month.sort_values('MonthName')
 # Summary metrics
 most_selling_store_id = sales_by_store_size.groupby('Store')['Weekly_Sales'].sum().idxmax()
 most_selling_store = f"Store {most_selling_store_id}"
-store_20_type = sales_by_store_size[sales_by_store_size['Store'] == 20]['Size'].iloc[0]
 most_selling_department = sales_by_dept.sort_values(by='Weekly_Sales', ascending=False).iloc[0]['Dept']
 most_selling_month = sales_by_month.sort_values(by='Weekly_Sales', ascending=False).iloc[0]['Month']
 most_selling_month_name = pd.to_datetime(str(int(most_selling_month)), format='%m').strftime('%B')
 most_selling_holiday = "Thanksgiving"
+top_store_type = store_type_counts.sort_values(by='Count', ascending=False).iloc[0]['Type']
 
 # Header
 st.markdown("<h2 style='text-align: center;'>Sales Analysis Summary</h2>", unsafe_allow_html=True)
 
 # Summary boxes
-col1, col2, col3, col4 = st.columns(4)
+col1, col2, col3, col4, col5, col6 = st.columns(6)
 
 with col1:
     st.markdown("<h4 style='font-size: 12px;'>Most Selling Store</h4>", unsafe_allow_html=True)
     st.markdown(f"<p style='font-size: 22px;'>{most_selling_store}</p>", unsafe_allow_html=True)
-    st.markdown(f"<p style='font-size: 22px;'>Size: {store_20_type}</p>", unsafe_allow_html=True)
 
 with col2:
     st.markdown("<h4 style='font-size: 12px;'>Most Selling Department</h4>", unsafe_allow_html=True)
@@ -48,6 +47,15 @@ with col3:
 with col4:
     st.markdown("<h4 style='font-size: 12px;'>Most Selling Holiday</h4>", unsafe_allow_html=True)
     st.markdown(f"<p style='font-size: 22px;'>{most_selling_holiday}</p>", unsafe_allow_html=True)
+
+with col5:
+    st.markdown("<h4 style='font-size: 12px;'>Top Store Type</h4>", unsafe_allow_html=True)
+    st.markdown(f"<p style='font-size: 22px;'>Type {top_store_type}</p>", unsafe_allow_html=True)
+
+with col6:
+    store_a_percentage = store_type_counts[store_type_counts['Type'] == 'A']['Count'].iloc[0] / store_type_counts['Count'].sum() * 100
+    st.markdown("<h4 style='font-size: 12px;'>Type A Share</h4>", unsafe_allow_html=True)
+    st.markdown(f"<p style='font-size: 22px;'>{store_a_percentage:.1f}%</p>", unsafe_allow_html=True)
 
 st.markdown("---")
 
@@ -102,8 +110,6 @@ col1, col2 = st.columns(2)
 
 with col1:
     st.plotly_chart(fig_store_types, use_container_width=True)
-    # Insight with actual value for Store A
-    store_a_percentage = store_type_counts[store_type_counts['Type'] == 'A']['Count'].iloc[0] / store_type_counts['Count'].sum() * 100
     st.markdown(f"**Insight:** Store Type A has the highest sales share, contributing approximately **{store_a_percentage:.1f}%** of the total. This indicates that Type A stores play a major role in overall performance.")
 
 with col2:
