@@ -57,7 +57,7 @@ fig_store_types = px.pie(
     names='Type',
     values='Count',
     title='Weekly Sales by Store Type',
-    color_discrete_sequence=px.colors.qualitative.Rainbow
+    color_discrete_sequence=px.colors.qualitative.Turbo
 )
 
 # Plot 2: Sales by Year
