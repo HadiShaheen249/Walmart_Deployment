@@ -25,6 +25,7 @@ most_selling_month = sales_by_month.sort_values(by='Weekly_Sales', ascending=Fal
 most_selling_month_name = pd.to_datetime(str(int(most_selling_month)), format='%m').strftime('%B')
 most_selling_holiday = "Thanksgiving"
 top_store_type = store_type_counts.sort_values(by='Count', ascending=False).iloc[0]['Type']
+store_a_percentage = store_type_counts[store_type_counts['Type'] == 'A']['Count'].iloc[0] / store_type_counts['Count'].sum() * 100
 
 # Header
 st.markdown("<h2 style='text-align: center;'>Sales Analysis Summary</h2>", unsafe_allow_html=True)
@@ -34,28 +35,28 @@ col1, col2, col3, col4, col5 = st.columns(5)
 
 with col1:
     st.markdown("<h4 style='font-size: 12px;'>Most Selling Store</h4>", unsafe_allow_html=True)
+    st.markdown("<br>", unsafe_allow_html=True)
     st.markdown(f"<p style='font-size: 22px;'>{most_selling_store}</p>", unsafe_allow_html=True)
 
 with col2:
     st.markdown("<h4 style='font-size: 12px;'>Most Selling Department</h4>", unsafe_allow_html=True)
+    st.markdown("<br>", unsafe_allow_html=True)
     st.markdown(f"<p style='font-size: 22px;'>{int(most_selling_department)}</p>", unsafe_allow_html=True)
 
 with col3:
     st.markdown("<h4 style='font-size: 12px;'>Most Selling Month</h4>", unsafe_allow_html=True)
+    st.markdown("<br>", unsafe_allow_html=True)
     st.markdown(f"<p style='font-size: 22px;'>{most_selling_month_name}</p>", unsafe_allow_html=True)
 
 with col4:
     st.markdown("<h4 style='font-size: 12px;'>Most Selling Holiday</h4>", unsafe_allow_html=True)
+    st.markdown("<br>", unsafe_allow_html=True)
     st.markdown(f"<p style='font-size: 22px;'>{most_selling_holiday}</p>", unsafe_allow_html=True)
 
 with col5:
     st.markdown("<h4 style='font-size: 12px;'>Top Store Type</h4>", unsafe_allow_html=True)
+    st.markdown("<br>", unsafe_allow_html=True)
     st.markdown(f"<p style='font-size: 22px;'>Type {top_store_type}</p>", unsafe_allow_html=True)
-
-# with col6:
-#     store_a_percentage = store_type_counts[store_type_counts['Type'] == 'A']['Count'].iloc[0] / store_type_counts['Count'].sum() * 100
-#     st.markdown("<h4 style='font-size: 12px;'>Type A Share</h4>", unsafe_allow_html=True)
-#     st.markdown(f"<p style='font-size: 22px;'>{store_a_percentage:.1f}%</p>", unsafe_allow_html=True)
 
 st.markdown("---")
 
