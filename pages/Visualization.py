@@ -85,7 +85,7 @@ fig_sales_by_month = px.bar(
     x='MonthName',
     y='Weekly_Sales',
     title='Weekly Sales by Month',
-    color_discrete_sequence=px.colors.sequential.Plasma
+    color_discrete_sequence=px.colors.sequential.Aggrnyl
 )
 
 # Plot 5: Sales by Department
