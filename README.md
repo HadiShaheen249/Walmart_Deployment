@@ -22,21 +22,21 @@ Walmart's sales fluctuate significantly during certain times of the year (e.g., 
 
 ## 🧩 System Workflow
 
-📂 Raw Data (train.csv, features.csv, stores.csv)
-↓
-🧹 Data Cleaning & Preprocessing
-↓
-📊 Exploratory Data Analysis (EDA)
-↓
-🛠️ Feature Engineering
-↓
-🤖 Model Training (Random Forest, XGBoost, Linear Regression)
-↓
-✅ Model Evaluation
-↓
-💾 Model Saving (joblib)
-↓
-🚀 Streamlit Deployment
+📂 Raw Data (train.csv, features.csv, stores.csv)                                       
+↓                              
+🧹 Data Cleaning & Preprocessing                      
+↓                               
+📊 Exploratory Data Analysis (EDA)                     
+↓             
+🛠️ Feature Engineering            
+↓          
+🤖 Model Training (Random Forest, XGBoost, Linear Regression)            
+↓          
+✅ Model Evaluation        
+↓        
+💾 Model Saving (joblib)          
+↓           
+🚀 Streamlit Deployment           
 
 
 ---
